@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotionV2.WebApp", "NotionV2.WebApp\NotionV2.WebApp.csproj", "{BC820A17-209A-4224-AF02-7C5C1A794E8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotionV2.DataServices", "NotionV2.DataServices\NotionV2.DataServices.csproj", "{3B04B97E-E045-4322-809E-B78374DA67A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC820A17-209A-4224-AF02-7C5C1A794E8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC820A17-209A-4224-AF02-7C5C1A794E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC820A17-209A-4224-AF02-7C5C1A794E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC820A17-209A-4224-AF02-7C5C1A794E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B04B97E-E045-4322-809E-B78374DA67A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B04B97E-E045-4322-809E-B78374DA67A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B04B97E-E045-4322-809E-B78374DA67A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B04B97E-E045-4322-809E-B78374DA67A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
