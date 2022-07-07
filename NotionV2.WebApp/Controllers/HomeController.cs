@@ -32,7 +32,7 @@ namespace NotionV2.Controllers
             var currentUser = _db.Users.FirstOrDefault(user => user.Name == userName);
             var viewModel = new HomeViewMode();
             viewModel.User = currentUser;
-            
+
             if (currentUser != null)
                 viewModel.Notes = _db.Notes.Where(note => note.UserId == currentUser.Id).ToList();
 
@@ -45,7 +45,7 @@ namespace NotionV2.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveNote([FromForm] long postId, [FromForm] string categoryId, [FromForm] string postTitle, [FromForm] string postText)
+        public IActionResult SavePost([FromForm] long postId, [FromForm] string categoryId, [FromForm] string postTitle, [FromForm] string postText)
         {
             var (userName, isAdmin) = UserCookieUtility.GetSavedUser(HttpContext);
             var currentUser = _db.Users.FirstOrDefault(user => user.Name == userName);

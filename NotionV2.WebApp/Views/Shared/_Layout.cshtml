@@ -4,11 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>@ViewBag.Title - @ViewBag.SiteName</title>
-    <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico" />
-    @* <link href="~/css/styles.css" rel="stylesheet" /> *@
+    <link href="css/styles.css" rel="stylesheet" />
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/site.css" rel="stylesheet">
-
 </head>
 <body>
 <div class="d-flex" id="wrapper">
@@ -33,22 +31,13 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     @if (string.IsNullOrWhiteSpace(ViewBag.CurrentUserName))
-                    {                   
+                    {
                         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                             <li class="nav-item active">
                                 <a asp-controller="Account" asp-action="Login" class="nav-link">Log in</a>
                             </li>
                             <li class="nav-item">
                                 <a asp-controller="Account" asp-action="Register" class="nav-link">Register</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#!">Action</a>
-                                    <a class="dropdown-item" href="#!">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#!">Something else here</a>
-                                </div>
                             </li>
                         </ul>
                     }
@@ -59,7 +48,6 @@
                             <li class="nav-item active">
                                 <a asp-controller="Account" asp-action="Logout" class="nav-link"><span class="feather-16" data-feather="log-out"></span>Logout</a>
                             </li>
-
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -80,14 +68,19 @@
         </div>
     </div>
 </div>
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
+
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/feather.min.js"></script>
 <script src="js/site.js"></script>
-@* <script src="js/scripts.js"></script> *@
+<script src="js/scripts.js"></script>
+<script>feather.replace();</script>
+
+@if (IsSectionDefined("PostsActionsDialog"))
+{
+	@RenderSection("PostsActionsDialog", false)
+}
+
 @if (IsSectionDefined("FooterScripts"))
 {
 	@RenderSection("FooterScripts", false)

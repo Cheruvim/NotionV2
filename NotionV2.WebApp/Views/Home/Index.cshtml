@@ -12,9 +12,21 @@
 
 @if (!string.IsNullOrEmpty(ViewBag.CurrentUserName))
 {
-    <button type="button" class="btn site-bg-blue w-100" id="postCreateButton"><span class="d-none d-xl-inline">Создать</span></button>
+    <button type="button" class="btn site-bg-blue text-white w-100" id="postCreateButton"><span class="feather-16" data-feather="plus-circle"></span> <span class="d-none d-xl-inline">Создать</span></button>
 }
 
+@foreach (var post in Model.Notes)
+{
+    <div class="media position-relative p-3 article-navbar-item">
+        <div class="card-body py-0">
+            <h5 class="card-title header-truncate"><a href="#" class="stretched-link" post-id="@post.Id">@post.Title</a></h5>
+            <p class="card-text content-truncate">@post.Body</p>
+        </div>
+    </div>
+}
+
+@section PostsActionsDialog
+{
 <div class="modal fade" id="postEditDialog" tabindex="-1" role="dialog" aria-labelledby="postEditDialogTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -24,7 +36,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form asp-controller="Home" asp-action="SaveNote" enctype="multipart/form-data" method="POST">
+            <form enctype="multipart/form-data" method="POST" action="/Home/SavePost">
                 <div class="modal-body">
                     <input type="hidden" class="form-control" id="postId" name="postId" value="">
                     <div class="form-group">
@@ -38,32 +50,21 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                    <button type="submit" class="btn site-bg-blue">Сохранить</button>
+                    <button type="submit" class="btn site-bg-blue text-white">Сохранить</button>
                 </div>
-            </form>
+            <input name="__RequestVerificationToken" type="hidden" value="CfDJ8OIAZ6Des7hDly2YjG_vPV85Lxs9-13YAUjEh_85ZzNeXaXbZvVejBQc9FpYyvqgJgDchZa_BxjXOpwX6QqWmCInSstgholM2RcXlHvfcomeyMMwE-14WTsWkFz0r79mRe_zFwRX84H_uGXOIWxg0wk" /></form>
         </div>
     </div>
 </div>
 
-
-@foreach (var post in Model.Notes)
-{
-    <div class="media position-relative p-3 article-navbar-item">
-        <div class="card-body py-0">
-            <h5 class="card-title header-truncate"><a href="#" class="stretched-link" post-id="@post.Id">@post.Title</a></h5>
-            <p class="card-text content-truncate">@post.Body</p>
-        </div>
-    </div>
 }
 
 @section FooterScripts
 {
 <script>
-// BindCategoryNavItems();
-// BindCategoryControlButtons();
-// BindPostNavItems();
+BindCategoryNavItems();
+BindCategoryControlButtons();
+BindPostNavItems();
 BindPostsControlButtons();
 </script>
 }
-
-
