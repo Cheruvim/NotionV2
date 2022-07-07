@@ -1,0 +1,122 @@
+/* Задает исходные стили для шрифта страницы */
+html, body {
+  font-size: 80% !important;
+  line-height: 1.4;
+  overflow: hidden;
+}
+p {
+  font-size: 120% !important;
+}
+
+/* Задает размер панелей под размер окна браузера */
+.site-height {
+  height: 100vh;
+  max-height: 100vh;
+}
+
+/* Для активных категорий шрифт пожирнее */
+.category-navbar-item.active {
+  font-weight: 700!important;
+}
+
+/* Для активных элементов фон серый */
+.active {
+  background-color: #F0F0F0;
+}
+
+/* Убирает стили ссылок на панели постов */
+h5 a:hover,
+h5 a:visited,
+h5 a:focus {
+  color: inherit!important;
+  text-decoration: none;
+}
+
+/* Обрезает текста для заголовков - до 1 строки */
+.header-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Обрезает текста для текста - до 4 строк */
+.content-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Задает высоту для панелей и возможность прокрутки */
+.article-navbar .panel-body,
+.article-contents .panel-body {
+  height:100%;
+  max-height:100%;
+  overflow:auto;
+}
+
+/* Задает стили для аватарок комментаторов */
+.comment-wrapper .media-list .media img {
+  width:64px;
+  height:64px;
+  border:2px solid #e5e7e8;
+}
+
+/* Задает стили для блоков комментариев */
+.comment-wrapper .media-list .media {
+  border-bottom:1px dashed #efefef;
+  margin-bottom:25px;
+}
+
+/* Делает изображения на панели постов поменьше */
+.article-navbar img {
+  width: 180px;
+}
+
+/* Делает изображения на панели просмотра поменьше */
+.article-contents img {
+  width: 320px;
+}
+
+/* Делает шрифт для имени комментатора больше */
+.media-body .text-dark {
+  font-size: 150% !important;
+}
+
+/* Кастомные цвета для сайта */
+.site-bg-blue {
+  background-color: #1B4778 !important;
+}
+.site-border-blue {
+  border-color: #1B4778;
+}
+.site-bg-red {
+  background-color: #D9544F !important;
+}
+.site-text-blue {
+  color: #1B4778 !important;
+}
+.site-text-gray {
+  color: #606060 !important;
+}
+
+/* Кастомные размеры иконок */
+.feather-8 {
+  width: 8px;
+  height: 8px;
+}
+.feather-16 {
+  width: 16px;
+  height: 16px;
+}
+.feather-24 {
+  width: 24px;
+  height: 24px;
+}
+.feather-32 {
+  width: 32px;
+  height: 32px;
+}

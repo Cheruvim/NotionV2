@@ -1,16 +1,69 @@
-﻿@{
+﻿@model NotionV2.Models.HomeViewMode
+
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.SiteName = "Notion V2";
     ViewBag.Title = "Главная";
 
+    if (ViewBag.CurrentUserName == null) ViewBag.CurrentUserName = string.Empty;
+    if (ViewBag.CurrentUserAdmin == null) ViewBag.CurrentUserAdmin = false;
 }
 
-<h1 class="mt-4">Simple Sidebar</h1>
-<p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-<p>
-    Make sure to keep all page content within the
-    <code>#page-content-wrapper</code>
-    . The top navbar is optional, and just for demonstration. Just create an element with the
-    <code>#sidebarToggle</code>
-    ID which will toggle the menu when clicked.
-</p>
+@if (!string.IsNullOrEmpty(ViewBag.CurrentUserName))
+{
+    <button type="button" class="btn site-bg-blue w-100" id="postCreateButton"><span class="d-none d-xl-inline">Создать</span></button>
+}
+
+<div class="modal fade" id="postEditDialog" tabindex="-1" role="dialog" aria-labelledby="postEditDialogTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="postEditDialogTitle">Пост</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-controller="Home" asp-action="SaveNote" enctype="multipart/form-data" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" class="form-control" id="postId" name="postId" value="">
+                    <div class="form-group">
+                        <label for="postTitle">Название статьи</label>
+                        <input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="Введите название статьи">
+                    </div>
+                    <div class="form-group">
+                        <label for="postText">Текст статьи</label>
+                        <textarea class="form-control" id="postText" name="postText" rows="7" placeholder="Введите текст статьи"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn site-bg-blue">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@foreach (var post in Model.Notes)
+{
+    <div class="media position-relative p-3 article-navbar-item">
+        <div class="card-body py-0">
+            <h5 class="card-title header-truncate"><a href="#" class="stretched-link" post-id="@post.Id">@post.Title</a></h5>
+            <p class="card-text content-truncate">@post.Body</p>
+        </div>
+    </div>
+}
+
+@section FooterScripts
+{
+<script>
+// BindCategoryNavItems();
+// BindCategoryControlButtons();
+// BindPostNavItems();
+BindPostsControlButtons();
+</script>
+}
+
+

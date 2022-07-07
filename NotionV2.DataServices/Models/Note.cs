@@ -8,7 +8,6 @@ namespace NotionV2.DataServices.Models
         public string Title { get; set; }
         public string Header { get; set; }
         public string Body { get; set; }
-        public List<Attachment> Attachments { get; set; }
         
         public int UserId { get; set; }
     }

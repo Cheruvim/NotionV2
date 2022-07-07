@@ -1,0 +1,40 @@
+﻿@model NotionV2.Models.Account.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    ViewBag.SiteName = "Notion V2";
+    Layout = "_Layout";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewBag.Title - @ViewBag.SiteName</title>
+    <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico" />
+    <link href="~/css/styles.css" rel="stylesheet" />
+</head>
+<body>
+    <form method="POST">
+        <div class="form-group">
+            <label asp-for="Login" class="site-text-gray"></label>
+            <input asp-for="Login" class="form-control" placeholder="Логин" autofocus />
+            <span asp-validation-for="Login" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="site-text-gray"></label>
+            <input asp-for="Password" type="password" class="form-control" placeholder="Пароль" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn site-bg-red" style="width: 50%; float: left;">Войти</button>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-link" style="width: 50%;">Регистрация</a>
+        </div>
+    </form>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+</body>
+</html>
+
