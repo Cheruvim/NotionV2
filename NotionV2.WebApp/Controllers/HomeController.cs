@@ -1,9 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System;
 using System.Linq;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NotionV2.DataServices.Models;
 using NotionV2.Models;
+using NotionV2.Models.Account;
 using NotionV2.Utils;
 
 namespace NotionV2.Controllers
@@ -21,21 +23,21 @@ namespace NotionV2.Controllers
 
         public IActionResult Index()
         {
-            var (userName, isAdmin) = UserCookieUtility.GetSavedUser(HttpContext);
-            if (!string.IsNullOrWhiteSpace(userName))
+            var currentUser = GetUserInfoFromCookies();
+
+            if(currentUser != null)
             {
-                ViewBag.CurrentUserName = userName;
-                ViewBag.CurrentUserAdmin = isAdmin;
+                ViewBag.CurrentUserName = currentUser.Login;
+                ViewBag.CurrentUserAdmin = currentUser.IsAdmin;
             }
 
-            var currentUser = _db.Users.FirstOrDefault(user => user.Name == userName);
             var viewModel = new HomeViewMode();
-            viewModel.User.Id = currentUser.Id;
-            viewModel.User.Login = currentUser.Name;
-            viewModel.User.IsAdmin = currentUser.IsAdmin;
 
             if (currentUser != null)
+            {
+                viewModel.User = currentUser;
                 viewModel.Notes = _db.Notes.Where(note => note.UserId == currentUser.Id).ToList();
+            }
 
             return View(viewModel);
         }
@@ -43,8 +45,9 @@ namespace NotionV2.Controllers
         [HttpPost]
         public IActionResult SavePost([FromForm] int postId, [FromForm] string postTitle, [FromForm] string postText)
         {
-            var (userName, _) = UserCookieUtility.GetSavedUser(HttpContext);
-            var currentUser = _db.Users.FirstOrDefault(user => user.Name == userName);
+            var currentUser = GetUserInfoFromCookies();
+            if(currentUser == null)
+                return StatusCodeWithMessage(HttpStatusCode.Unauthorized, "Не удалось получить данные пользователя.");
 
             if (postId < 0)
             {
@@ -54,9 +57,10 @@ namespace NotionV2.Controllers
                     Body = postText,
                     UserId = currentUser.Id
                 });
-                _db.SaveChanges();
 
-            }else
+                _db.SaveChanges();
+            }
+            else
             {
                 var currentNote = _db.Notes.FirstOrDefault(note => note.Id == postId);
                 if (currentNote == null)
@@ -75,18 +79,49 @@ namespace NotionV2.Controllers
         public IActionResult DeletePost([FromQuery] int postId)
         {
             var currentNote = _db.Notes.FirstOrDefault(note => note.Id == postId);
+            var currentUser = GetUserInfoFromCookies();
+            if(currentUser == null)
+                return StatusCodeWithMessage(HttpStatusCode.Unauthorized, "Не удалось получить данные пользователя.");
+
             if (currentNote == null)
-                return RedirectToAction("Index");
+                return StatusCodeWithMessage(HttpStatusCode.BadRequest, "Не удалось найти запись с данным идентификатором.");
+
+            if (currentNote.UserId != currentUser.Id)
+                return StatusCodeWithMessage(HttpStatusCode.BadRequest, "Вы не создатель поста!");
 
             _db.Remove(currentNote);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        /// <summary>
+        /// Возвращает контент с сообщением и заданным кодом.
+        /// </summary>
+        /// <param name="code">Код статуса ответа на HTTP запрос.</param>
+        /// <param name="message">Сообщение.</param>
+        /// <returns>Результат выполнения запроса.</returns>
+        private IActionResult StatusCodeWithMessage(HttpStatusCode code, string message)
         {
-            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+            var contentResult = Content($"{code}{Environment.NewLine}{message}");
+            contentResult.StatusCode = (int)code;
+            return contentResult;
+        }
+
+        private AccountViewModel GetUserInfoFromCookies()
+        {
+            var (userName, _) = UserCookieUtility.GetSavedUser(HttpContext);
+
+            if (userName == null)
+                return null;
+
+            var currentUser = _db.Users.FirstOrDefault(user => user.Name == userName);
+
+            if (currentUser == null)
+                return null;
+
+            var result = new AccountViewModel
+                { Id = currentUser.Id, Login = currentUser.Name, IsAdmin = currentUser.IsAdmin };
+            return result;
         }
     }
 }
