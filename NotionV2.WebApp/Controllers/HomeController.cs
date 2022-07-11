@@ -45,17 +45,40 @@ namespace NotionV2.Controllers
         }
 
         [HttpPost]
-        public IActionResult SavePost([FromForm] long postId, [FromForm] string categoryId, [FromForm] string postTitle, [FromForm] string postText)
+        public IActionResult SavePost([FromForm] int postId, [FromForm] string postTitle, [FromForm] string postText)
         {
             var (userName, isAdmin) = UserCookieUtility.GetSavedUser(HttpContext);
             var currentUser = _db.Users.FirstOrDefault(user => user.Name == userName);
 
-            _db.Notes.Add(new Note
+            if (postId < 0)
             {
-                Title = postTitle,
-                Body = postText,
-                UserId = currentUser.Id
-            });
+                _db.Notes.Add(new Note
+                {
+                    Title = postTitle,
+                    Body = postText,
+                    UserId = currentUser.Id
+                });
+                _db.SaveChanges();
+
+            }else
+            {
+                var currentNote = _db.Notes.FirstOrDefault(note => note.Id == postId);
+                if (currentNote != null)
+                {
+                    currentNote.Body = postText;
+                    currentNote.Title = postTitle;
+                    _db.Notes.Update(currentNote);
+                    _db.SaveChanges();
+                } 
+            }
+            
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult DeletePost([FromQuery] int postId)
+        {
+            _db.Remove(_db.Notes.FirstOrDefault(note => note.Id == postId));
             _db.SaveChanges();
             return RedirectToAction("Index");
         }

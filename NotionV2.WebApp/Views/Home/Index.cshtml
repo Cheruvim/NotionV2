@@ -17,12 +17,15 @@
 
 @foreach (var post in Model.Notes)
 {
-    <div class="media position-relative p-3 article-navbar-item">
+    <div class="media position-relative p-3 article-navbar-item" post-id="@post.Id">
         <div class="card-body py-0">
-            <h5 class="card-title header-truncate"><a href="#" class="stretched-link" post-id="@post.Id">@post.Title</a></h5>
+            <h5 class="card-title header-truncate"><a href="#" class="stretched-link">@post.Title</a></h5>
             <p class="card-text content-truncate">@post.Body</p>
         </div>
     </div>
+    <button type="button" class="postEditButton" post-id="@post.Id"><span class="feather-16" data-feather="plus-circle"></span> <span class="d-none d-xl-inline">Изменить</span></button>
+    <button type="button" class="postDeleteButton" post-id="@post.Id"><span class="feather-16" data-feather="plus-circle"></span> <span class="d-none d-xl-inline">Удалить</span></button>
+
 }
 
 @section PostsActionsDialog
@@ -36,7 +39,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form enctype="multipart/form-data" method="POST" action="/Home/SavePost">
+            <form asp-controller="Home" asp-action="SavePost" enctype="multipart/form-data" method="POST">
                 <div class="modal-body">
                     <input type="hidden" class="form-control" id="postId" name="postId" value="">
                     <div class="form-group">
@@ -52,19 +55,38 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                     <button type="submit" class="btn site-bg-blue text-white">Сохранить</button>
                 </div>
-            <input name="__RequestVerificationToken" type="hidden" value="CfDJ8OIAZ6Des7hDly2YjG_vPV85Lxs9-13YAUjEh_85ZzNeXaXbZvVejBQc9FpYyvqgJgDchZa_BxjXOpwX6QqWmCInSstgholM2RcXlHvfcomeyMMwE-14WTsWkFz0r79mRe_zFwRX84H_uGXOIWxg0wk" /></form>
+            </form>
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="postDeleteDialog" tabindex="-1" role="dialog" aria-labelledby="postDeleteDialogTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="postDeleteDialogTitle">Удаление поста</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Вы действительно хотите удалить выбранную категорию?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <a href="#" class="btn site-bg-red text-white">ОК</a>
+            </div>
+        </div>
+    </div>
+</div>
 }
 
 @section FooterScripts
 {
 <script>
-BindCategoryNavItems();
-BindCategoryControlButtons();
-BindPostNavItems();
+// BindCategoryNavItems();
+// BindCategoryControlButtons();
+// BindPostNavItems();
 BindPostsControlButtons();
 </script>
 }

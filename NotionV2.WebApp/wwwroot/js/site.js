@@ -72,23 +72,19 @@ function BindPostsControlButtons() {
 
         $("#postEditDialog").modal();
     });
-    $("#postDeleteButton").click(function () {
-        let selectedPostItem = $(".article-navbar-item.active .stretched-link");
-        let selectedPostId = $(selectedPostItem).attr('post-id');
+    $(".postDeleteButton").click(function () {
+        let selectedPostId = $(this).attr('post-id');
 
         $("#postDeleteDialog a").attr("href", "/Home/DeletePost?postId=" + selectedPostId);
         $("#postDeleteDialog").modal();
     });
-    $("#postEditButton").click(function () {
-        let selectedCategoryItem = $(".category-navbar-item.active");
-        let selectedCategoryId = $(selectedCategoryItem).attr('category-id');
-        let selectedPostItem = $(".article-navbar-item.active .stretched-link");
-        let selectedPostId = $(selectedPostItem).attr('post-id');
-        let selectedPostTitle = $(selectedPostItem).text();
-        let selectedPostContents = $(".article-navbar-item.active .card-text").text();
+    $(".postEditButton").click(function () {
+        let selectedPostId = $(this).attr('post-id');
+        let selectedPostItem = $('div[post-id=' + selectedPostId + ']');
+        let selectedPostTitle = selectedPostItem.find('h5 a').text();
+        let selectedPostContents = selectedPostItem.find('p').text();
 
         $("#postEditDialog input[name='postId']").attr("value", selectedPostId);
-        $("#postEditDialog input[name='categoryId']").attr("value", selectedCategoryId);
         $("#postEditDialog input[name='postTitle']").attr("value", selectedPostTitle);
         $("#postEditDialog textarea[name='postText']").val(selectedPostContents);
 
