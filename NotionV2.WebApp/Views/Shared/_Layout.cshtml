@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>@ViewBag.Title - @ViewBag.SiteName</title>
-    <link href="css/styles.css" rel="stylesheet" />
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/site.css" rel="stylesheet">
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet">
+    <link href="~/css/styles.css" rel="stylesheet" />
 </head>
 <body class="h-100">
 <div class="d-flex" id="wrapper">
@@ -14,12 +14,12 @@
     <div class="border-end" id="sidebar-wrapper">
         <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
         <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Dashboard</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Shortcuts</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Dashboard</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Shortcuts</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Overview</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Events</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Profile</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Status</a>
         </div>
     </div>
     <!-- Page content wrapper-->
@@ -74,11 +74,11 @@
 	@RenderSection("PostsActionsDialog", false)
 }
 
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/feather.min.js"></script>
-<script src="js/site.js"></script>
-<script src="js/scripts.js"></script>
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/feather.min.js"></script>
+<script src="~/js/scripts.js"></script>
+<script src="~/js/site.js"></script>
 <script>feather.replace();</script>
 
 @if (IsSectionDefined("FooterScripts"))

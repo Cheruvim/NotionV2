@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using NotionV2.DataServices.Models;
 using NotionV2.Models;
 using NotionV2.Utils;
@@ -20,7 +19,7 @@ namespace NotionV2.Controllers
             _db = context;
         }
 
-        public IActionResult Index([FromQuery] long category = -1, [FromQuery] long post = -1, [FromQuery] string searchText = "")
+        public IActionResult Index()
         {
             var (userName, isAdmin) = UserCookieUtility.GetSavedUser(HttpContext);
             if (!string.IsNullOrWhiteSpace(userName))
@@ -31,7 +30,9 @@ namespace NotionV2.Controllers
 
             var currentUser = _db.Users.FirstOrDefault(user => user.Name == userName);
             var viewModel = new HomeViewMode();
-            viewModel.User = currentUser;
+            viewModel.User.Id = currentUser.Id;
+            viewModel.User.Login = currentUser.Name;
+            viewModel.User.IsAdmin = currentUser.IsAdmin;
 
             if (currentUser != null)
                 viewModel.Notes = _db.Notes.Where(note => note.UserId == currentUser.Id).ToList();
@@ -39,15 +40,10 @@ namespace NotionV2.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         [HttpPost]
         public IActionResult SavePost([FromForm] int postId, [FromForm] string postTitle, [FromForm] string postText)
         {
-            var (userName, isAdmin) = UserCookieUtility.GetSavedUser(HttpContext);
+            var (userName, _) = UserCookieUtility.GetSavedUser(HttpContext);
             var currentUser = _db.Users.FirstOrDefault(user => user.Name == userName);
 
             if (postId < 0)
@@ -63,22 +59,26 @@ namespace NotionV2.Controllers
             }else
             {
                 var currentNote = _db.Notes.FirstOrDefault(note => note.Id == postId);
-                if (currentNote != null)
-                {
-                    currentNote.Body = postText;
-                    currentNote.Title = postTitle;
-                    _db.Notes.Update(currentNote);
-                    _db.SaveChanges();
-                } 
+                if (currentNote == null)
+                    return RedirectToAction("Index");
+
+                currentNote.Body = postText;
+                currentNote.Title = postTitle;
+                _db.Notes.Update(currentNote);
+                _db.SaveChanges();
             }
-            
+
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult DeletePost([FromQuery] int postId)
         {
-            _db.Remove(_db.Notes.FirstOrDefault(note => note.Id == postId));
+            var currentNote = _db.Notes.FirstOrDefault(note => note.Id == postId);
+            if (currentNote == null)
+                return RedirectToAction("Index");
+
+            _db.Remove(currentNote);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
