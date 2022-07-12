@@ -1,4 +1,6 @@
-﻿namespace NotionV2.DataServices.Models
+﻿using System.Collections.Generic;
+
+namespace NotionV2.DataServices.Models
 {
     public class User
     {
@@ -7,5 +9,7 @@
         public string Name { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
+
+        public List<SectionOnUserLinker> Linkers { get; set; }
     }
 }

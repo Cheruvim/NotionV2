@@ -6,5 +6,8 @@
         public int SectionId { get; set; }
         public int UserId { get; set; }
         public int Role { get; set; }
+
+        public Section Section { get; set; }
+        public User User { get; set; }
     }
 }

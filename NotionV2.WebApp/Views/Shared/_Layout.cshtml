@@ -14,12 +14,17 @@
     <div class="border-end" id="sidebar-wrapper">
         <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
         <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Dashboard</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Shortcuts</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Overview</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Events</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Profile</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">Status</a>
+
+            @if (IsSectionDefined("_Sections"))
+            {
+                @RenderSection("_Sections", false)
+            }
+
+            @if (!string.IsNullOrEmpty(ViewBag.CurrentUserName))
+            {
+                <button type="button" class="btn site-bg-blue text-white w-100" id="sectionCreateButton"><span class="feather-16" data-feather="plus-circle"></span> <span class="d-none d-xl-inline">Создать</span></button>
+            }
+
         </div>
     </div>
     <!-- Page content wrapper-->
@@ -72,6 +77,11 @@
 @if (IsSectionDefined("PostsActionsDialog"))
 {
 	@RenderSection("PostsActionsDialog", false)
+}
+
+@if (IsSectionDefined("SectionsActionsDialog"))
+{
+	@RenderSection("SectionsActionsDialog", false)
 }
 
 <script src="~/js/jquery.min.js"></script>

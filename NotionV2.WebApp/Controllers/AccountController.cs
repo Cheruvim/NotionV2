@@ -21,7 +21,7 @@ namespace NotionV2.Controllers
             _logger = logger;
             _db = context;
         }
-        
+
         /// <summary>
         /// Обрабатывает запрос на переход к главной странице контроллера управления аккаунтами.
         /// </summary>
@@ -32,7 +32,7 @@ namespace NotionV2.Controllers
             // Выполняет переадресацию на страницу авторизации (метод Login() контроллера управления аккаунтами).
             return RedirectToAction("Login");
         }
-        
+
         /// <summary>
         /// Обрабатывает запрос на переход к странице авторизации.
         /// </summary>
@@ -40,16 +40,9 @@ namespace NotionV2.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            // Получает из кук авторизованного пользователя. Если пользователь найден,
-            // выполняет переадресацию на главную страницу приложения (метод Index контроллера главной страницы).
-            // Иначе возвращает страницу авторизации.
-            var (userName, _) = UserCookieUtility.GetSavedUser(HttpContext);
-            if (!string.IsNullOrWhiteSpace(userName))
-                return RedirectToAction("Index", "Home");
-
             return View();
         }
-        
+
         /// <summary>
         /// Обрабатывает запрос на авторизацию.
         /// </summary>
@@ -98,11 +91,8 @@ namespace NotionV2.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            // Получает из кук авторизованного пользователя. Если пользователь найден,
-            // выполняет переадресацию на главную страницу приложения (метод Index контроллера главной страницы).
-            // Иначе возвращает страницу регистрации.
-            var (userName, _) = UserCookieUtility.GetSavedUser(HttpContext);
-            if (!string.IsNullOrWhiteSpace(userName))
+            var currentUser = GetUserInfoFromCookies();
+            if (currentUser != null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -180,5 +170,23 @@ namespace NotionV2.Controllers
             contentResult.StatusCode = (int)code;
             return contentResult;
         }
+
+        private AccountViewModel GetUserInfoFromCookies()
+        {
+            var (userName, _) = UserCookieUtility.GetSavedUser(HttpContext);
+
+            if (userName == null)
+                return null;
+
+            var currentUser = _db.Users.FirstOrDefault(user => user.Name == userName);
+
+            if (currentUser == null)
+                return null;
+
+            var result = new AccountViewModel
+                { Id = currentUser.Id, Login = currentUser.Name, IsAdmin = currentUser.IsAdmin };
+            return result;
+        }
+
     }
 }

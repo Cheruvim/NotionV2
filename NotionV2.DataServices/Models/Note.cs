@@ -8,8 +8,10 @@ namespace NotionV2.DataServices.Models
         public string Title { get; set; }
         public string Header { get; set; }
         public string Body { get; set; }
-        
         public int UserId { get; set; }
         public int SectionId { get; set; }
+
+        public User User { get; set; }
+        public Section Section { get; set; }
     }
 }

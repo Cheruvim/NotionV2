@@ -40,11 +40,11 @@ function BindPostNavItems() {
     });
 }
 
-function BindCategoryControlButtons() {
-    $("#categoryCreateButton").click(function () {
-        $("#categoryEditDialog input[name='categoryId']").attr("value", "-1");
-        $("#categoryEditDialog input[name='categoryTitle']").attr("value", "");
-        $("#categoryEditDialog").modal();
+function BindSectionControlButtons() {
+    $("#sectionCreateButton").click(function () {
+        $("#sectionEditDialog input[name='sectionId']").attr("value", "-1");
+        $("#sectionEditDialog input[name='sectionTitle']").attr("value", "");
+        $("#sectionEditDialog").modal();
     });
     $("#categoryDeleteButton").click(function () {
         let item = $(".category-navbar-item.active");
