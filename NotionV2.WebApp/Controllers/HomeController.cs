@@ -79,14 +79,13 @@ namespace NotionV2.Controllers
             }
             else
             {
-                // var currentNote = _db.Notes.FirstOrDefault(note => note.Id == postId);
-                // if (currentNote == null)
-                //     return RedirectToAction("Index");
-                //
-                // currentNote.Body = postText;
-                // currentNote.Title = postTitle;
-                // _db.Notes.Update(currentNote);
-                // _db.SaveChanges();
+                var currentSection = _db.Sections.FirstOrDefault(s => s.Id == sectionId);
+                if (currentSection == null)
+                    return RedirectToAction("Index");
+
+                currentSection.Name = sectionTitle;
+                _db.Sections.Update(currentSection);
+                _db.SaveChanges();
             }
 
             return RedirectToAction("Index");

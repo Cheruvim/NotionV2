@@ -40,9 +40,14 @@
 
     @foreach (var _section in Model.Sections)
     {
-        <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home" asp-route-sectionId="@_section.Id">
-            @_section.Name
-        </a>
+        <div section-id="@_section.Id">
+            <a class="list-group-item list-group-item-action list-group-item-light p-3"  asp-action="Index" asp-controller="Home" asp-route-sectionId="@_section.Id">@_section.Name</a>
+            <div class="btn-group">
+                <button type="button" class="sectionEditButton" section-id="@_section.Id"><span class="feather-16" data-feather="plus-circle"></span> <span class="d-none d-xl-inline">Изменить</span></button>
+                <button type="button" class="sectionDeleteButton" section-id="@_section.Id"><span class="feather-16" data-feather="plus-circle"></span> <span class="d-none d-xl-inline">Удалить</span></button>
+            </div>
+
+        </div>
     }
 
     @if (!Model.Sections.Any())

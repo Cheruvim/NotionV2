@@ -46,21 +46,21 @@ function BindSectionControlButtons() {
         $("#sectionEditDialog input[name='sectionTitle']").attr("value", "");
         $("#sectionEditDialog").modal();
     });
-    $("#categoryDeleteButton").click(function () {
+    $(".categoryDeleteButton").click(function () {
         let item = $(".category-navbar-item.active");
         let id = $(item).attr('category-id');
 
         $("#categoryDeleteDialog a").attr("href", "/Home/DeleteCategory?categoryId=" + id);
         $("#categoryDeleteDialog").modal();
     });
-    $("#categoryEditButton").click(function () {
-        let item = $(".category-navbar-item.active");
-        let id = $(item).attr('category-id');
-        let text = $(item).text();
+    $(".sectionEditButton").click(function () {
+        let id = $(this).attr('section-id');
+        let selectedSectionItem = $('div[section-id=' + id + '] a').text();
+        // let selectedSectionTitle = selectedSectionItem.find('a').text();
 
-        $("#categoryEditDialog input[name='categoryId']").attr("value", id);
-        $("#categoryEditDialog input[name='categoryTitle']").attr("value", text);
-        $("#categoryEditDialog").modal();
+        $("#sectionEditDialog input[name='sectionId']").attr("value", id);
+        $("#sectionEditDialog input[name='sectionTitle']").attr("value", selectedSectionItem);
+        $("#sectionEditDialog").modal();
     });
 }
 
