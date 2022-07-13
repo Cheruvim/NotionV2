@@ -1,6 +1,4 @@
-﻿@using Microsoft.EntityFrameworkCore
-@using NotionV2.DataServices.Models
-@model NotionV2.Models.HomeViewMode
+﻿@model NotionV2.Models.HomeViewMode
 
 
 @{
@@ -36,9 +34,9 @@
 
 @section _Sections
 {
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home">
-                Home
-            </a>
+    <a class="list-group-item list-group-item-action list-group-item-light p-3" asp-action="Index" asp-controller="Home" asp-route-sectionId="-1">
+        Home
+    </a>
 
     @foreach (var _section in Model.Sections)
     {
@@ -70,6 +68,7 @@
             <form asp-controller="Home" asp-action="SavePost" enctype="multipart/form-data" method="POST">
                 <div class="modal-body">
                     <input type="hidden" class="form-control" id="postId" name="postId" value="">
+                    <input type="hidden" class="form-control" id="selectedSectionId" name="sectionId" value="@ViewBag.SelectedSection">
                     <div class="form-group">
                         <label for="postTitle">Название статьи</label>
                         <input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="Введите название статьи">
@@ -122,7 +121,7 @@
             </div>
             <form asp-controller="Home" asp-action="SaveSection" enctype="multipart/form-data" method="POST">
                 <div class="modal-body">
-                    <input type="hidden" class="form-control" id="sectionId" name="sectionId" value="">
+                        <input type="hidden" class="form-control" id="sectionId" name="sectionId" value="">
                     <div class="form-group">
                         <label for="postTitle">Название категории</label>
                         <input type="text" class="form-control" id="sectionTitle" name="sectionTitle" placeholder="Введите название статьи">

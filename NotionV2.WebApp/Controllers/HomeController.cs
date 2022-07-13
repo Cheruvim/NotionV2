@@ -23,7 +23,7 @@ namespace NotionV2.Controllers
             _db = context;
         }
 
-        public IActionResult Index(int sectionId = -1)
+        public IActionResult Index([FromQuery] int sectionId = -1)
         {
             var currentUser = GetUserInfoFromCookies();
 
@@ -32,6 +32,8 @@ namespace NotionV2.Controllers
                 ViewBag.CurrentUserName = currentUser.Login;
                 ViewBag.CurrentUserAdmin = currentUser.IsAdmin;
             }
+
+            ViewBag.SelectedSection = sectionId;
 
             var viewModel = new HomeViewMode();
 
@@ -99,6 +101,10 @@ namespace NotionV2.Controllers
 
             if (postId < 0)
             {
+                if (sectionId < 0)
+                    return StatusCodeWithMessage(HttpStatusCode.Unauthorized,
+                        "Не удалось сохранить пост. Не указан идентификатор категории.");
+
                 _db.Notes.Add(new Note
                 {
                     SectionId = sectionId,
