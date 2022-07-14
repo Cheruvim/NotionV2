@@ -46,12 +46,11 @@ function BindSectionControlButtons() {
         $("#sectionEditDialog input[name='sectionTitle']").attr("value", "");
         $("#sectionEditDialog").modal();
     });
-    $(".categoryDeleteButton").click(function () {
-        let item = $(".category-navbar-item.active");
-        let id = $(item).attr('category-id');
+    $(".sectionDeleteButton").click(function () {
+        let id = $(this).attr('section-id');
 
-        $("#categoryDeleteDialog a").attr("href", "/Home/DeleteCategory?categoryId=" + id);
-        $("#categoryDeleteDialog").modal();
+        $("#sectionDeleteDialog a").attr("href", "/Home/DeleteCategory?catId=" + id);
+        $("#sectionDeleteDialog").modal();
     });
     $(".sectionEditButton").click(function () {
         let id = $(this).attr('section-id');

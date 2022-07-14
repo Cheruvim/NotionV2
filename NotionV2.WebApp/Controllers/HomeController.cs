@@ -130,6 +130,22 @@ namespace NotionV2.Controllers
         }
 
         [HttpGet]
+        public IActionResult DeleteCategory([FromQuery] int catId)
+        {
+            var currentCat = _db.Sections.FirstOrDefault(cat => cat.Id == catId);
+            var currentUser = GetUserInfoFromCookies();
+            if(currentUser == null)
+                return StatusCodeWithMessage(HttpStatusCode.Unauthorized, "Не удалось получить данные пользователя.");
+
+            if (currentCat == null)
+                return StatusCodeWithMessage(HttpStatusCode.BadRequest, "Не удалось найти запись с данным идентификатором.");
+            
+            _db.Remove(currentCat);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
         public IActionResult DeletePost([FromQuery] int postId)
         {
             var currentNote = _db.Notes.FirstOrDefault(note => note.Id == postId);
