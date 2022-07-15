@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using NotionV2.DataServices.Models;
 using NotionV2.Models;
